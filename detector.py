@@ -20,11 +20,10 @@ def extract_shots_with_pyscenedetect(src_video, threshold=0, min_scene_length=15
 
 	try:
 		start_time = base_timecode
-		end_time = base_timecode + 20.0
 		video_manager.set_duration(start_time=start_time)
 		video_manager.set_downscale_factor(downscale_factor=1)
 		video_manager.start()
-		scene_manager.detect_scenes(frame_source=video_manager, end_time = end_time, frame_skip = 0)
+		scene_manager.detect_scenes(frame_source=video_manager, frame_skip = 0)
 		scene_list = scene_manager.get_scene_list(base_timecode)
 		# print('List of scenes obtained:')
 		# for i, scene in enumerate(scene_list):
@@ -41,6 +40,8 @@ def extract_shots_with_pyscenedetect(src_video, threshold=0, min_scene_length=15
 
 
 def write_csv(src_video, scene_list):
+	if not (os.path.isdir(_CSV_FOLDER)):
+		os.makedirs(os.path.join(_CSV_FOLDER))
 	video_name = src_video.split('/')[2]
 	video_name = video_name.split('.')[0] + '.csv'
 	csv_path = os.path.join(_CSV_FOLDER, video_name)
