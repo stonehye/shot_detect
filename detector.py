@@ -45,7 +45,6 @@ def write_csv(src_video, scene_list):
 	video_name = src_video.split('/')[2]
 	video_name = video_name.split('.')[0] + '.csv'
 	csv_path = os.path.join(_CSV_FOLDER, video_name)
-	print(csv_path)
 	f = open(csv_path, 'w', encoding='utf-8', newline='')
 	wr = csv.writer(f)
 	wr.writerow(["Start Frame", "End Frame", "Start Time", "End Time"])
