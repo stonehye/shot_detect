@@ -3,6 +3,7 @@ import csv
 import os
 
 _CSV_FOLDER = './CSV'
+frame_threshold = 32
 
 def video2frames(src_video, shot_list):
 	vidcap = cv2.VideoCapture(src_video)
@@ -17,14 +18,17 @@ def video2frames(src_video, shot_list):
 	count = 0
 	for line in rdr:
 		if line_num != 0:
-			End_frame_num = int(line[1])
-			_FRAME_FOLDER = os.path.join('./','FRAMES', video_name, line[1])
+			Start_frame_num = line[0]
+			End_frame_num = line[1]
+			frame_n = int(End_frame_num) - int(Start_frame_num) + 1
+			_FRAME_FOLDER = os.path.join('./','FRAMES', video_name, Start_frame_num)
 			if not (os.path.isdir(_FRAME_FOLDER)):
 				os.makedirs(os.path.join(_FRAME_FOLDER))
+
 			while count <= End_frame_num-1:
 				success, image = vidcap.read()
 				if success:
-					img_name= "%d.jpg" % count
+					img_name = "%d.jpg" % count
 					img_path = os.path.join(_FRAME_FOLDER, img_name)
 					cv2.imwrite(img_path, image)
 				count += 1
